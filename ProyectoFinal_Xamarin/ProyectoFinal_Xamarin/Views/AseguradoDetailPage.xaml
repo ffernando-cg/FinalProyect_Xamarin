@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converter="clr-namespace:ProyectoFinal_Xamarin.Converters"
+             mc:Ignorable="d"
+             x:Class="ProyectoFinal_Xamarin.Views.AseguradoDetailPage"
+             BackgroundColor="#FFFFFF"> 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Eliminar" Command="{Binding DeleteCommand}" />
+        <ToolbarItem Text="Guardar" Command="{Binding SaveCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <Grid Padding="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*" />
+                <ColumnDefinition Width="2*" />
+            </Grid.ColumnDefinitions>
+            <ScrollView  Grid.Column="0">
+            <StackLayout>
+                <ActivityIndicator
+                    IsRunning="{Binding IsBusy}"
+                    d:IsRunning="True" />
+                <Entry 
+                    Placeholder="Nombre" 
+                    Text="{Binding Nombre}"
+                    HorizontalOptions="Start"
+                    WidthRequest="500"/>
+                    <Label HeightRequest="10" />
+                 <Entry
+                    Placeholder="Domicilio"
+                    Text="{Binding Domicilio}"
+                    HorizontalOptions="Start"
+                    WidthRequest="500"/>
+                    <Label HeightRequest="10" />
+                 <Button
+                    CornerRadius="10"
+                    WidthRequest="500"
+                    BackgroundColor="#48784c"
+                    TextColor="#FFFFFF"
+                    Text="Tomar fotografía"
+                    Command="{Binding TakePictureCommand}"
+                    HorizontalOptions="Start"/>
+                <Button
+                    CornerRadius="10"
+                    WidthRequest="500"
+                    BackgroundColor="#48784c"
+                    TextColor="#FFFFFF"
+                    Text="Seleccionar fotografía"
+                    Command="{Binding SelectPictureCommand}" 
+                    HorizontalOptions="Start"/>
+            </StackLayout>
+            </ScrollView>           
+            <StackLayout Grid.Column="1">
+                <Frame 
+                    Grid.Column="0"
+                    CornerRadius="300" 
+                    HorizontalOptions="Center"
+                    Padding="0"
+                    IsClippedToBounds="True">
+                    <Image Source="{Binding Foto, Converter={StaticResource ImageConverter}}"/>
+                </Frame>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

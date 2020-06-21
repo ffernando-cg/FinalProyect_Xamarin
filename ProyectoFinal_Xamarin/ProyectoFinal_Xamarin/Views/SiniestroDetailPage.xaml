@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:converter="clr-namespace:ProyectoFinal_Xamarin.Converters"
+             mc:Ignorable="d"
+             x:Class="ProyectoFinal_Xamarin.Views.SiniestroDetailPage"
+             BackgroundColor="#FFFFFF">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Eliminar" Command="{Binding DeleteCommand}" />
+        <ToolbarItem Text="Guardar" Command="{Binding SaveCommand}" />
+        <ToolbarItem Text="Mapa" Command="{Binding MapCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout>
+                
+                <!-- Aquí empieza la tablita -->
+                
+                <Grid Margin="15, 15, 15, 0">
+                    <Label Margin="0,0,0,20" FontSize="Large" Text="Siniestros" TextColor="Black" HorizontalOptions="Center" VerticalOptions="CenterAndExpand"/>
+                    <Frame BackgroundColor="#3c784a" BorderColor="#3c784a" Padding="0">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label Text="Nombre" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Grid.Column="0" TextColor="White"/>
+                            <Label Text="Dirección" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Grid.Column="1" TextColor="White"/>
+                            <Label Text="Imagen" VerticalOptions="Center" HorizontalOptions="CenterAndExpand" Grid.Column="2" TextColor="White"/>
+                            <BoxView  BackgroundColor="DarkSlateGray" WidthRequest="1" Grid.Column="0" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand"/>
+                            <BoxView  BackgroundColor="DarkSlateGray" WidthRequest="1" Grid.Column="1" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand"/>
+                            <BoxView  BackgroundColor="DarkSlateGray" WidthRequest="1" Grid.Column="2" HorizontalOptions="EndAndExpand" VerticalOptions="EndAndExpand"/>
+                        </Grid>
+                    </Frame>
+                </Grid>
+                <StackLayout Margin="15, 0, 15, 15">
+                    <ScrollView>
+                        <Grid HeightRequest="200">
+                            <ListView
+                                SelectionMode="Single"
+                                x:Name="lstViewAsegurados"
+                                ItemsSource="{Binding Asegurados}"
+                                SelectedItem="{Binding Asegurado}"
+                                SeparatorVisibility="None"
+                                HasUnevenRows="False">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Frame BorderColor="Black">
+                                                <Grid Padding="0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Image
+                                                        HeightRequest="100"
+                                                        WidthRequest="100"
+                                                        Source="{Binding Foto, Converter={StaticResource ImageConverter}}"
+                                                        VerticalOptions="Center"
+                                                        Grid.Column="2"/>
+                                                    <Label
+                                                        Text="{Binding Nombre}"
+                                                        VerticalOptions="Center"
+                                                        Grid.Column="0"/>
+                                                    <Label Text="{Binding Domicilio}" VerticalOptions="Center" Grid.Column="1"/>
+                                                </Grid>
+                                            </Frame>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </Grid>
+                    </ScrollView>
+                </StackLayout>
+
+                <!--Aquí termina la tablita-->
+
+
+
+
+                <Grid Padding="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*" />
+                        <ColumnDefinition Width="2*" />
+                    </Grid.ColumnDefinitions>
+                    <ScrollView Grid.Column="0">
+                        <StackLayout>
+                            <ActivityIndicator
+                                IsRunning="{Binding IsBusy}"
+                                d:IsRunning="True" />
+                            <Label
+                                Text="{Binding TiempoSiniestro, StringFormat='{0:dd MMM yy HH:mm}'}"
+                                IsEnabled="False"
+                                IsVisible="{Binding MostrarFecha}"
+                                HorizontalOptions="Start"
+                                WidthRequest="500"/>
+                            <Entry 
+                                Placeholder="Nombre del Ajustador" 
+                                Text="{Binding NombreAjustador}" 
+                                HorizontalOptions="Start"
+                                WidthRequest="500"
+                                TextColor="Black"/>
+                            <Label Text="Nombre del Asegurado:" Padding="0,10,0,0"/>
+                            <Label
+                                IsEnabled="False"
+                                
+                                Text="{Binding Asegurado.Nombre}" 
+                                HorizontalOptions="Start"
+                                WidthRequest="500"
+                                TextColor="Black"/>
+                            <Label Text="Coordenadas en donde sucedio:" Padding="0,10,0,0"/>
+                            <Label
+                                
+                                Text="{Binding Latitude}"
+                                IsEnabled="False"
+                                HorizontalOptions="Start"
+                                WidthRequest="500"
+                                TextColor="Black"/>
+                            <Label
+                                
+                                Text="{Binding Longitude}"
+                                IsEnabled="False"
+                                HorizontalOptions="Start"
+                                WidthRequest="500"
+                                TextColor="Black"/>
+                            <Label HeightRequest="10" />
+                            <Button
+                                CornerRadius="10"
+                                BackgroundColor="#3c784a"
+                                TextColor="#FFFFFF"
+                                Text="Obtener Ubicación"
+                                IsEnabled="{Binding MostrarBtnUbi}"
+                                IsVisible="{Binding MostrarBtnUbi}"
+                                Command="{Binding GetLocationCommand}"
+                                HorizontalOptions="Start"
+                                WidthRequest="500"/>
+                            <Button
+                                CornerRadius="10"
+                                BackgroundColor="#3c784a"
+                                TextColor="#FFFFFF"
+                                Text="Tomar fotografía"
+                                Command="{Binding TakePictureCommand}"
+                                HorizontalOptions="Start"
+                                WidthRequest="500" />
+                            <Button
+                                CornerRadius="10"
+                                BackgroundColor="#3c784a"
+                                TextColor="#FFFFFF"
+                                Text="Seleccionar fotografía"
+                                Command="{Binding SelectPictureCommand}"
+                                HorizontalOptions="Start"
+                                WidthRequest="500"/>
+                        </StackLayout>
+                    </ScrollView>
+                    <StackLayout Grid.Column="1">
+                        <Frame 
+                            Grid.Column="0"
+                            CornerRadius="300" 
+                            HorizontalOptions="Center"
+                            Padding="0"
+                            IsClippedToBounds="True">
+                            <Image
+                            Source="{Binding FotoSiniestro, Converter={StaticResource ImageConverter}}" />
+                        </Frame>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:converter="clr-namespace:ProyectoFinal_Xamarin.Converters"
+             mc:Ignorable="d"
+             x:Class="ProyectoFinal_Xamarin.Views.SiniestrosPage"
+             BackgroundColor="#FFFFF"
+             Title="{Binding Title}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Nuevo" Command="{Binding NewCommand}" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <RefreshView 
+            IsRefreshing="{Binding IsBusy}"
+            Command="{Binding RefreshCommand}">
+            <CollectionView
+                SelectionMode="Single"
+                ItemsSource="{Binding Siniestros}"
+                SelectedItem="{Binding SiniestroSelected}"
+                SelectionChangedCommand="{Binding SelectCommand}"
+                x:Name="TripsColView">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BorderColor="#DCDCDC">
+                            <Grid Padding="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="3*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+
+                            </Grid.RowDefinitions>
+                            <Frame 
+                                BorderColor="#A9A9A9"
+                                Grid.Column="0"
+                                CornerRadius="300" 
+                                HorizontalOptions="Center"
+                                Padding="0"
+                                IsClippedToBounds="True">
+                            <Image
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Grid.RowSpan="3"
+                                HeightRequest="150"
+                                WidthRequest="150"
+                                Aspect="AspectFill"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="CenterAndExpand"
+                                Source="{Binding FotoSiniestro, Converter={StaticResource ImageConverter}}"
+                                d:Source="not_found" />
+                                </Frame>
+                                <Label
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Text="{Binding NombreAjustador}"
+                                d:Text="Titulo"
+                                FontSize="Large" />
+                                <Label
+                                HorizontalOptions="Start"
+                                VerticalOptions="CenterAndExpand"
+                                Grid.Column="1"
+                                Text="{Binding Asegurado.Nombre}"
+                                d:Text="Rating"
+                                FontSize="Medium"/>
+                            <Label
+                                HorizontalOptions="Start"
+                                VerticalOptions="CenterAndExpand"
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                d:Text="Fecha"
+                                FontSize="Medium"
+                                Text="{Binding TiempoSiniestro, StringFormat='{0:dd MMM yy HH:mm}'}" />
+                        </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>
